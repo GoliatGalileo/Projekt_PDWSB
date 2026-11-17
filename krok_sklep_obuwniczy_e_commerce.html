@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KROK. — Nowoczesny Sklep Obuwniczy Online</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#FAFAFA',
+                            dark: '#111827',
+                            accent: '#EA580C',
+                            accentHover: '#C2410C',
+                            lightAccent: '#FFF7ED',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(17, 24, 39, 0.05)',
+                        'card': '0 10px 30px -5px rgba(17, 24, 39, 0.07)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles for Smooth Animations & Scrollbars -->
+    <style>
+        body {
+            background-color: #FAFAFA;
+            color: #111827;
+            overflow-x: hidden;
+        }
+
+        /* Custom subtle scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9CA3AF;
+        }
+
+        /* Product image hover zoom */
+        .product-img-zoom {
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .group:hover .product-img-zoom {
+            transform: scale(1.06);
+        }
+
+        /* Toast slide-in animation */
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .toast-enter {
+            animation: slideUpFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Badge pulse */
+        @keyframes badgePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.28); }
+            100% { transform: scale(1); }
+        }
+        .badge-pop {
+            animation: badgePop 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-accent selection:text-white flex flex-col min-h-screen">
+
+    <!-- 1. PASEK INFORMACYJNY NA SAMEJ GÓRZE -->
+    <div class="bg-brand-dark text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium tracking-wide">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            <span class="inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                </svg>
+                Darmowa dostawa dla zamówień powyżej <strong class="text-white font-semibold">299 zł</strong>
+            </span>
+            <span class="hidden sm:inline text-gray-500">|</span>
+            <span class="inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                30 dni na darmowy zwrot
+            </span>
+        </div>
+    </div>
+
+    <!-- 2. PRZYKLEJONA (STICKY) NAWIGACJA -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 transition-shadow duration-200" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-4">
+                
+                <!-- Mobile Menu Button & Logo -->
+                <div class="flex items-center gap-3">
+                    <button id="mobile-menu-btn" type="button" aria-label="Otwórz menu" class="lg:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+
+                    <a href="#" onclick="resetAllFilters(); return false;" class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-brand-dark flex items-center select-none">
+                        KROK<span class="text-brand-accent">.</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2" aria-label="Główna nawigacja">
+                    <button data-nav-cat="Wszystkie" class="nav-cat-link px-3.5 py-2 rounded-xl text-sm font-semibold text-brand-accent bg-brand-lightAccent transition-colors">Wszystkie</button>
+                    <button data-nav-cat="Sneakersy" class="nav-cat-link px-3.5 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-brand-dark hover:bg-gray-100 transition-colors">Sneakersy</button>
+                    <button data-nav-cat="Biegowe" class="nav-cat-link px-3.5 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-brand-dark hover:bg-gray-100 transition-colors">Biegowe</button>
+                    <button data-nav-cat="Eleganckie" class="nav-cat-link px-3.5 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-brand-dark hover:bg-gray-100 transition-colors">Eleganckie</button>
+                    <button data-nav-cat="Outdoor" class="nav-cat-link px-3.5 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-brand-dark hover:bg-gray-100 transition-colors">Outdoor</button>
+                </nav>
+
+                <!-- Live Search & Cart Trigger -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-initial justify-end">
+                    <!-- Search Input (Desktop & Tablet) -->
+                    <div class="relative hidden sm:block w-56 md:w-64 lg:w-72">
+                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </span>
+                        <input 
+                            type="text" 
+                            id="search-input-desktop" 
+                            placeholder="Szukaj modelu butów..." 
+                            class="w-full pl-10 pr-8 py-2 bg-gray-100/90 border border-transparent focus:bg-white focus:border-brand-accent rounded-xl text-sm text-brand-dark placeholder-gray-400 focus:outline-none transition-all"
+                        >
+                        <button id="clear-search-desktop" type="button" aria-label="Wyczyść wyszukiwanie" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-gray-400 hover:text-gray-700">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Search Toggle Button -->
+                    <button id="mobile-search-toggle" type="button" aria-label="Szukaj" class="sm:hidden p-2.5 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button id="open-cart-btn" type="button" aria-label="Otwórz koszyk" class="relative inline-flex items-center gap-2 bg-brand-dark hover:bg-gray-800 text-white px-3.5 sm:px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm active:scale-95">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <span class="hidden md:inline">Koszyk</span>
+                        <span id="cart-badge" class="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 text-xs font-bold bg-brand-accent text-white rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Expandable Search Bar -->
+            <div id="mobile-search-bar" class="hidden sm:hidden pb-3">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </span>
+                    <input 
+                        type="text" 
+                        id="search-input-mobile" 
+                        placeholder="Szukaj modelu, np. AeroGlide..." 
+                        class="w-full pl-10 pr-9 py-2.5 bg-gray-100 border border-transparent focus:bg-white focus:border-brand-accent rounded-xl text-sm text-brand-dark placeholder-gray-400 focus:outline-none"
+                    >
+                    <button id="clear-search-mobile" type="button" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button data-nav-cat="Wszystkie" class="nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-accent bg-brand-lightAccent">Wszystkie produkty</button>
+            <button data-nav-cat="Sneakersy" class="nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50">Sneakersy</button>
+            <button data-nav-cat="Biegowe" class="nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50">Biegowe</button>
+            <button data-nav-cat="Eleganckie" class="nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50">Eleganckie</button>
+            <button data-nav-cat="Outdoor" class="nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50">Outdoor</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- 3. SEKCJA HERO -->
+        <section class="relative overflow-hidden bg-white border-b border-gray-200/70">
+            <!-- Subtle decorative background shape -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-orange-100/60 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-gray-100 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                    
+                    <!-- Left Editorial Copy -->
+                    <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-lightAccent border border-orange-200/70 text-brand-accent text-xs font-bold uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+                            Kolekcja Jesień / Zima
+                        </div>
+
+                        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-dark tracking-tight leading-[1.1]">
+                            Każdy krok ma znaczenie<span class="text-brand-accent">.</span><br>
+                            <span class="text-gray-500 font-bold">Styl i wygoda na co dzień.</span>
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                            Odkryj wyselekcjonowane obuwie miejskie, biegowe i outdoorowe zaprojektowane z myślą o maksymalnej amortyzacji, trwałości oraz ponadczasowym minimalizmie.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+                            <a href="#katalog" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-brand-accent hover:bg-brand-accentHover text-white font-semibold text-base shadow-lg shadow-orange-600/20 transition-all hover:-translate-y-0.5">
+                                <span>Przeglądaj kolekcję</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                            <button type="button" onclick="filterByPromo()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-gray-100 hover:bg-gray-200/80 text-brand-dark font-semibold text-base transition-colors">
+                                <span>Oferty specjalne do -20%</span>
+                            </button>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="pt-4 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0 border-t border-gray-100">
+                            <div>
+                                <p class="font-display text-xl sm:text-2xl font-extrabold text-brand-dark">4.9/5</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Ocena klientów</p>
+                            </div>
+                            <div>
+                                <p class="font-display text-xl sm:text-2xl font-extrabold text-brand-dark">24h</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Wysyłka z Polski</p>
+                            </div>
+                            <div>
+                                <p class="font-display text-xl sm:text-2xl font-extrabold text-brand-dark">100%</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Oryginalne modele</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Hero Visual -->
+                    <div class="lg:col-span-6 relative">
+                        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-orange-50/70 p-4 sm:p-6 border border-gray-200/60 shadow-card">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-white relative">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=85" 
+                                    onerror="this.onerror=null;this.src='https://placehold.co/900x675/F3F4F6/111827?text=KROK.+Kolekcja+Jesien+Zima';"
+                                    alt="Nowoczesne buty sportowe KROK. kolekcja Jesień/Zima" 
+                                    class="w-full h-full object-cover object-center"
+                                >
+                                <!-- Floating Product Highlight Pill -->
+                                <div class="absolute bottom-4 left-4 right-4 sm:right-auto bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl shadow-lg border border-gray-100 flex items-center gap-3.5">
+                                    <div class="w-11 h-11 rounded-xl bg-brand-lightAccent text-brand-accent flex items-center justify-center shrink-0 font-display font-extrabold text-sm">
+                                        NEW
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-brand-accent uppercase tracking-wider">Bestseller Sezonu</p>
+                                        <p class="text-sm font-bold text-brand-dark">KROK. Velocity Carbon</p>
+                                        <p class="text-xs text-gray-500">Ultralekka pianka + zwrot energii</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 & 5. KATALOG PRODUKTÓW Z FILTROWANIEM I SORTOWANIEM -->
+        <section id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 scroll-mt-20">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-brand-dark tracking-tight">
+                        Katalog Obuwia
+                    </h2>
+                    <p class="text-sm sm:text-base text-gray-500 mt-1">
+                        Wybierz rozmiar bezpośrednio na karcie produktu lub kliknij model, aby zobaczyć szczegóły.
+                    </p>
+                </div>
+                <div class="text-sm text-gray-500 font-medium">
+                    Wyświetlono: <span id="products-count" class="text-brand-dark font-bold">10</span> modeli
+                </div>
+            </div>
+
+            <!-- Filter & Sort Bar -->
+            <div class="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-soft mb-8 space-y-4 lg:space-y-0 lg:flex lg:items-center lg:justify-between gap-4">
+                
+                <!-- Category Pills -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 no-scrollbar" id="category-filters" role="tablist" aria-label="Filtruj według kategorii">
+                    <button type="button" data-cat="Wszystkie" class="cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-brand-dark text-white transition-all">
+                        Wszystkie
+                    </button>
+                    <button type="button" data-cat="Sneakersy" class="cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200/80 transition-all">
+                        Sneakersy
+                    </button>
+                    <button type="button" data-cat="Biegowe" class="cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200/80 transition-all">
+                        Biegowe
+                    </button>
+                    <button type="button" data-cat="Eleganckie" class="cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200/80 transition-all">
+                        Eleganckie
+                    </button>
+                    <button type="button" data-cat="Outdoor" class="cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200/80 transition-all">
+                        Outdoor
+                    </button>
+                </div>
+
+                <!-- Price Filter & Sort Controls -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <!-- Price Filter -->
+                    <div class="relative">
+                        <label for="price-filter" class="sr-only">Filtruj po cenie</label>
+                        <select id="price-filter" class="w-full sm:w-auto appearance-none bg-gray-50 border border-gray-200 text-brand-dark text-sm font-medium rounded-xl pl-3.5 pr-9 py-2.5 focus:outline-none focus:border-brand-accent cursor-pointer">
+                            <option value="all">Cena: Wszystkie</option>
+                            <option value="under-400">Do 399,00 zł</option>
+                            <option value="400-549">400,00 – 549,00 zł</option>
+                            <option value="550-plus">Od 550,00 zł</option>
+                            <option value="promo">Tylko promocje</option>
+                        </select>
+                        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <!-- Sort Select -->
+                    <div class="relative">
+                        <label for="sort-select" class="sr-only">Sortuj według</label>
+                        <select id="sort-select" class="w-full sm:w-auto appearance-none bg-gray-50 border border-gray-200 text-brand-dark text-sm font-medium rounded-xl pl-3.5 pr-9 py-2.5 focus:outline-none focus:border-brand-accent cursor-pointer">
+                            <option value="default">Sortuj: Domyślnie</option>
+                            <option value="price-asc">Cena: rosnąco</option>
+                            <option value="price-desc">Cena: malejąco</option>
+                        </select>
+                        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <!-- Reset Filters Button (Hidden by default) -->
+                    <button id="reset-filters-btn" type="button" onclick="resetAllFilters()" class="hidden px-3.5 py-2.5 rounded-xl text-sm font-semibold text-brand-accent bg-brand-lightAccent hover:bg-orange-100 transition-colors">
+                        Wyczyść filtry
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cards rendered dynamically via JavaScript -->
+            </div>
+
+            <!-- Empty State when no products match -->
+            <div id="empty-state" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-gray-200/80 shadow-soft">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gray-100 text-gray-400 flex items-center justify-center">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <h3 class="font-display text-xl font-bold text-brand-dark">Nie znaleziono pasujących modeli</h3>
+                <p class="text-sm text-gray-500 max-w-md mx-auto mt-1.5 mb-6">
+                    Spróbuj zmienić kryteria wyszukiwania, wybrać inną kategorię lub zresetować aktywne filtry cenowe.
+                </p>
+                <button type="button" onclick="resetAllFilters()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-dark hover:bg-gray-800 text-white text-sm font-semibold transition-colors">
+                    Pokaż wszystkie buty
+                </button>
+            </div>
+        </section>
+
+        <!-- PROMO BANNER (KOD KROK10) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
+            <div class="bg-gradient-to-r from-brand-lightAccent via-orange-50 to-amber-50 border border-orange-200/80 rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left space-y-2">
+                    <span class="inline-block px-3 py-1 rounded-full bg-brand-accent text-white text-xs font-bold uppercase tracking-wider">
+                        Oferta Powitalna
+                    </span>
+                    <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-brand-dark">
+                        Zyskaj <span class="text-brand-accent">-10% zniżki</span> na całe zamówienie!
+                    </h3>
+                    <p class="text-sm sm:text-base text-gray-600">
+                        Użyj kodu rabatowego w koszyku i ciesz się niższą ceną na dowolną parę z nowej kolekcji.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                    <div class="px-5 py-3 bg-white border-2 border-dashed border-brand-accent rounded-2xl font-mono text-lg font-extrabold text-brand-dark tracking-widest select-all">
+                        KROK10
+                    </div>
+                    <button type="button" onclick="copyPromoCode('KROK10')" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-brand-dark hover:bg-gray-800 text-white text-sm font-semibold transition-all active:scale-95">
+                        Skopiuj kod
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. SEKCJA Z KORZYŚCIAMI -->
+        <section class="bg-white border-t border-b border-gray-200/80 py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Benefit 1 -->
+                    <div class="p-6 rounded-2xl bg-brand-bg border border-gray-100 flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-lightAccent text-brand-accent flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-brand-dark text-base">Szybka wysyłka 24h</h3>
+                            <p class="text-sm text-gray-500 mt-1 leading-relaxed">Zamówienia złożone do 15:00 wysyłamy jeszcze tego samego dnia kurierem lub do Paczkomatu.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="p-6 rounded-2xl bg-brand-bg border border-gray-100 flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-lightAccent text-brand-accent flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-brand-dark text-base">Oryginalne produkty</h3>
+                            <p class="text-sm text-gray-500 mt-1 leading-relaxed">Gwarancja autentyczności oraz 24-miesięczna rękojmia na każdą zakupioną parę.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="p-6 rounded-2xl bg-brand-bg border border-gray-100 flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-lightAccent text-brand-accent flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-brand-dark text-base">Bezpieczne płatności</h3>
+                            <p class="text-sm text-gray-500 mt-1 leading-relaxed">Błyskawiczne płatności BLIK, kartą płatniczą, Apple Pay oraz wygodne raty 0%.</p>
+                        </div>
+                    </div>
+
+                    <!-- Benefit 4 -->
+                    <div class="p-6 rounded-2xl bg-brand-bg border border-gray-100 flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-lightAccent text-brand-accent flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-brand-dark text-base">Darmowy zwrot 30 dni</h3>
+                            <p class="text-sm text-gray-500 mt-1 leading-relaxed">Nietrafiony rozmiar? Zwróć lub wymień buty bezpłatnie w ciągu 30 dni od dostawy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <div class="bg-brand-dark rounded-3xl p-8 sm:p-12 lg:p-16 text-white relative overflow-hidden">
+                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-brand-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="max-w-2xl mx-auto text-center space-y-5 relative z-10">
+                    <span class="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-accent text-xs font-bold uppercase tracking-wider">
+                        Dołącz do klubu KROK.
+                    </span>
+                    <h2 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight">
+                        Bądź na bieżąco z premierami i limitowanymi dropami
+                    </h2>
+                    <p class="text-sm sm:text-base text-gray-300">
+                        Zapisz się do newslettera, aby otrzymywać wcześniejszy dostęp do wyprzedaży oraz ekskluzywne kody rabatowe. Zero spamu.
+                    </p>
+                    <form id="newsletter-form" class="pt-2 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                        <input 
+                            type="email" 
+                            id="newsletter-email" 
+                            required 
+                            placeholder="Twój adres e-mail..." 
+                            class="flex-1 px-4 py-3.5 rounded-xl bg-white/10 border border-white/15 text-white placeholder-gray-400 text-sm focus:outline-none focus:border-brand-accent focus:bg-white/15 transition-all"
+                        >
+                        <button type="submit" class="px-6 py-3.5 rounded-xl bg-brand-accent hover:bg-brand-accentHover text-white font-semibold text-sm transition-all shrink-0 shadow-lg shadow-orange-600/25">
+                            Zapisz się
+                        </button>
+                    </form>
+                    <p id="newsletter-feedback" class="hidden text-sm font-medium text-emerald-400 pt-1"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- STOPKA SKLEPU E-COMMERCE -->
+    <footer class="bg-white border-t border-gray-200 text-gray-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+                <!-- Brand Col -->
+                <div class="lg:col-span-2 space-y-4">
+                    <a href="#" class="font-display text-2xl font-extrabold tracking-tight text-brand-dark inline-flex items-center">
+                        KROK<span class="text-brand-accent">.</span>
+                    </a>
+                    <p class="text-sm text-gray-500 max-w-sm leading-relaxed">
+                        Nowoczesny polski koncept obuwniczy łączący minimalistyczne wzornictwo z najnowszymi technologiami komfortu. Tworzymy selekcję butów na każdą pogodę i okazję.
+                    </p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <a href="#katalog" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-brand-dark hover:text-white flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#katalog" aria-label="Facebook" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-brand-dark hover:text-white flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                        </a>
+                        <a href="#katalog" aria-label="TikTok" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-brand-dark hover:text-white flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="font-display font-bold text-brand-dark text-sm uppercase tracking-wider mb-4">Kategorie</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button type="button" onclick="selectCategoryAndScroll('Wszystkie')" class="hover:text-brand-accent transition-colors">Wszystkie modele</button></li>
+                        <li><button type="button" onclick="selectCategoryAndScroll('Sneakersy')" class="hover:text-brand-accent transition-colors">Sneakersy miejskie</button></li>
+                        <li><button type="button" onclick="selectCategoryAndScroll('Biegowe')" class="hover:text-brand-accent transition-colors">Buty biegowe</button></li>
+                        <li><button type="button" onclick="selectCategoryAndScroll('Eleganckie')" class="hover:text-brand-accent transition-colors">Obuwie eleganckie</button></li>
+                        <li><button type="button" onclick="selectCategoryAndScroll('Outdoor')" class="hover:text-brand-accent transition-colors">Trekking i Outdoor</button></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="font-display font-bold text-brand-dark text-sm uppercase tracking-wider mb-4">Obsługa Klienta</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Dostawa i czas realizacji</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Zwroty i wymiany 30 dni</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Tabela rozmiarów EU / CM</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Reklamacje i gwarancja</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Kontakt: kontakt@krok-sklep.pl</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal & Info -->
+                <div>
+                    <h4 class="font-display font-bold text-brand-dark text-sm uppercase tracking-wider mb-4">Informacje</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">O marce KROK.</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Regulamin sklepu</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Polityka prywatności</a></li>
+                        <li><a href="#katalog" class="hover:text-brand-accent transition-colors">Ustawienia plików cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-gray-400">
+                    &copy; 2026 KROK. Sp. z o.o. Wszelkie prawa zastrzeżone.
+                </p>
+                <!-- Payment Methods Badges -->
+                <div class="flex flex-wrap items-center gap-2 text-xs font-bold text-gray-600">
+                    <span class="px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200/80 text-brand-dark">BLIK</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200/80">VISA</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200/80">Mastercard</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200/80">Apple Pay</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-gray-100 border border-gray-200/80 text-amber-600">InPost</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 6. MODAL SZYBKIEGO PODGLĄDU PRODUKTU (QUICK VIEW) -->
+    <div id="quick-view-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="qv-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="qv-backdrop" class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity"></div>
+
+        <!-- Modal Dialog Container -->
+        <div class="flex min-h-full items-center justify-center p-4 sm:p-6">
+            <div class="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden transform transition-all">
+                <!-- Close Button -->
+                <button id="qv-close-btn" type="button" aria-label="Zamknij podgląd" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 hover:bg-gray-100 text-gray-700 flex items-center justify-center shadow-md transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+
+                <div id="qv-content" class="grid grid-cols-1 md:grid-cols-2">
+                    <!-- Dynamic content injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. WYSUWANY PANEL BOCZNY KOSZYKA (CART DRAWER) -->
+    <div id="cart-drawer-wrapper" class="fixed inset-0 z-50 hidden" aria-labelledby="cart-drawer-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="cart-backdrop" class="fixed inset-0 bg-brand-dark/50 backdrop-blur-xs transition-opacity opacity-0"></div>
+
+        <!-- Drawer Panel -->
+        <div id="cart-panel" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-out">
+            
+            <!-- Cart Header -->
+            <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <h2 id="cart-drawer-title" class="font-display text-xl font-extrabold text-brand-dark">Twój Koszyk</h2>
+                    <span id="cart-drawer-count" class="px-2.5 py-0.5 text-xs font-bold bg-gray-100 text-gray-700 rounded-full">0</span>
+                </div>
+                <button id="close-cart-btn" type="button" aria-label="Zamknij koszyk" class="p-2 rounded-xl text-gray-500 hover:text-brand-dark hover:bg-gray-100 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Free Shipping Progress Bar -->
+            <div class="px-6 py-3.5 bg-brand-bg border-b border-gray-100">
+                <p id="free-shipping-text" class="text-xs font-medium text-gray-700 mb-2">
+                    Dodaj produkty za <strong class="text-brand-accent">299,00 zł</strong>, aby zyskać darmową dostawę!
+                </p>
+                <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div id="free-shipping-bar" class="h-full bg-brand-accent rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                <!-- Rendered via JS -->
+            </div>
+
+            <!-- Cart Footer (Promo Code + Summary + Checkout) -->
+            <div id="cart-footer" class="border-t border-gray-200 bg-white px-6 py-5 space-y-4">
+                <!-- Promo Code Input -->
+                <div>
+                    <form id="promo-form" class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="promo-input" 
+                            placeholder="Kod rabatowy (np. KROK10)" 
+                            class="flex-1 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-brand-dark uppercase placeholder:normal-case focus:outline-none focus:border-brand-accent"
+                        >
+                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold transition-colors">
+                            Zastosuj
+                        </button>
+                    </form>
+                    <div id="promo-status" class="hidden mt-1.5 flex items-center justify-between text-xs">
+                        <span id="promo-message" class="font-medium text-emerald-600"></span>
+                        <button type="button" id="remove-promo-btn" class="text-gray-400 hover:text-red-500 underline">Usuń</button>
+                    </div>
+                </div>
+
+                <!-- Summary Breakdown -->
+                <div class="space-y-1.5 text-sm pt-1">
+                    <div class="flex justify-between text-gray-500">
+                        <span>Wartość produktów</span>
+                        <span id="cart-subtotal" class="font-medium text-brand-dark">0,00 zł</span>
+                    </div>
+                    <div id="cart-discount-row" class="hidden flex justify-between text-emerald-600 font-medium">
+                        <span>Rabat (KROK10 -10%)</span>
+                        <span id="cart-discount">-0,00 zł</span>
+                    </div>
+                    <div class="flex justify-between text-gray-500">
+                        <span>Dostawa</span>
+                        <span id="cart-shipping" class="font-medium text-brand-dark">14,99 zł</span>
+                    </div>
+                    <div class="flex justify-between text-base font-extrabold text-brand-dark pt-2 border-t border-gray-100">
+                        <span>Razem do zapłaty</span>
+                        <span id="cart-total" class="font-display text-lg">0,00 zł</span>
+                    </div>
+                </div>
+
+                <!-- Checkout CTA -->
+                <button id="checkout-btn" type="button" class="w-full py-3.5 px-6 rounded-2xl bg-brand-accent hover:bg-brand-accentHover text-white font-semibold text-base shadow-lg shadow-orange-600/20 transition-all active:scale-[0.99] flex items-center justify-center gap-2">
+                    <span>Przejdź do kasy</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POTWIERDZENIA ZAMÓWIENIA (CHECKOUT SIMULATION) -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-100 text-center space-y-5">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                    <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <div class="space-y-1.5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-accent">Zamówienie przyjęte</span>
+                    <h3 class="font-display text-2xl font-extrabold text-brand-dark">Dziękujemy za zakupy w KROK.!</h3>
+                    <p class="text-sm text-gray-500">
+                        Twoje zamówienie nr <strong id="order-number" class="text-brand-dark">#KRK-202684</strong> zostało przekazane do realizacji.
+                    </p>
+                </div>
+                <div id="order-summary-box" class="bg-brand-bg rounded-2xl p-4 text-left text-xs text-gray-600 space-y-1.5 border border-gray-100">
+                    <!-- Order details populated by JS -->
+                </div>
+                <button id="close-checkout-modal-btn" type="button" class="w-full py-3.5 rounded-2xl bg-brand-dark hover:bg-gray-800 text-white font-semibold text-sm transition-colors">
+                    Wróć do sklepu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS CONTAINER -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        /**
+         * KROK. E-Commerce Storefront Logic
+         * Zawiera bazę produktów, filtrowanie, sortowanie, Quick View oraz koszyk z kodem rabatowym.
+         */
+
+        // 1. BAZA PRODUKTÓW (10 różnorodnych modeli butów)
+        const PRODUCTS = [
+            {
+                id: 'krok-aeroglide-v2',
+                name: 'KROK. AeroGlide V2',
+                category: 'Sneakersy',
+                price: 449.00,
+                oldPrice: null,
+                badge: 'Nowość',
+                badgeType: 'new',
+                image: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Biel / Terakota', hex: '#EA580C', image: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Czerń / Szarość', hex: '#1F2937', image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [38, 39, 40, 41, 42, 43, 44, 45],
+                description: 'Nowoczesne sneakersy miejskie łączące oddychającą siateczkę techniczną z miękką skórą zamszową. Podeszwa środkowa z pianki EVA gwarantuje lekkość przez cały dzień.',
+                specs: ['Cholewka: Skóra zamszowa + siateczka Mesh', 'Podeszwa: Pianka EVA + guma antypoślizgowa', 'Waga: 285 g (rozm. 42)']
+            },
+            {
+                id: 'krok-terrapeak-gtx',
+                name: 'KROK. TerraPeak GTX',
+                category: 'Outdoor',
+                price: 629.00,
+                oldPrice: 739.00,
+                badge: '-15%',
+                badgeType: 'sale',
+                image: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Koniakowy Brąz', hex: '#92400E', image: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Ciemny Grafit', hex: '#374151', image: 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [39, 40, 41, 42, 43, 44, 45],
+                description: 'Wodoodporne buty trekkingowe stworzone na wymagające szlaki i jesienno-zimową aurę. Głęboki bieżnik zapewnia niezawodną przyczepność na mokrych skałach i błocie.',
+                specs: ['Membrana: Wodoodporna HydroShield', 'Bieżnik: Guma wysokowęglowa 5 mm', 'Wzmocniony otok na palcach']
+            },
+            {
+                id: 'krok-velocity-carbon',
+                name: 'KROK. Velocity Carbon',
+                category: 'Biegowe',
+                price: 579.00,
+                oldPrice: null,
+                badge: 'Bestseller',
+                badgeType: 'new',
+                image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Czerwień / Terakota', hex: '#DC2626', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Biel / Limonka', hex: '#84CC16', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [38, 39, 40, 41, 42, 43, 44, 45],
+                description: 'Dynamiczny model startowo-treningowy z responsywną pianką o wysokim zwrocie energii. Zaprojektowany dla biegaczy poszukujących szybkości na asfalcie.',
+                specs: ['Drop: 8 mm', 'Amortyzacja: Pianka NitroFoam Pro', 'Waga: 218 g (rozm. 42)']
+            },
+            {
+                id: 'krok-oxford-suede',
+                name: 'KROK. Oxford Classic Suede',
+                category: 'Eleganckie',
+                price: 489.00,
+                oldPrice: null,
+                badge: null,
+                badgeType: null,
+                image: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Orzechowy Brąz', hex: '#78350F', image: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Klasyczna Czerń', hex: '#111827', image: 'https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [40, 41, 42, 43, 44, 45],
+                description: 'Ręcznie wykańczane półbuty ze szlachetnej skóry cielęcej. Połączenie formalnej sylwetki z elastyczną, amortyzowaną podeszwą dopasowaną do współczesnego tempa życia.',
+                specs: ['Materiał: 100% naturalna skóra licowa', 'Wnętrze: Oddychająca wyściółka skórzana', 'Konstrukcja: Blake Stitch']
+            },
+            {
+                id: 'krok-urban-court-low',
+                name: 'KROK. Urban Court Low',
+                category: 'Sneakersy',
+                price: 339.00,
+                oldPrice: 429.00,
+                badge: '-20%',
+                badgeType: 'sale',
+                image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Biel / Pastel', hex: '#F3F4F6', image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Biel / Granat', hex: '#1E3A8A', image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [38, 39, 40, 41, 42, 43, 44],
+                description: 'Minimalistyczne tenisówki inspirowane klasyką kortów tenisowych lat 90. Czysta linia cholewki sprawia, że pasują zarówno do jeansów, jak i casualowej marynarki.',
+                specs: ['Cholewka: Gładka skóra naturalna', 'Wkładka: Pianka z pamięcią kształtu', 'Szyta podeszwa typu Cupsole']
+            },
+            {
+                id: 'krok-cloudrun-daily',
+                name: 'KROK. CloudRun Daily',
+                category: 'Biegowe',
+                price: 399.00,
+                oldPrice: null,
+                badge: 'Nowość',
+                badgeType: 'new',
+                image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Miętowa Limonka', hex: '#65A30D', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Antracyt', hex: '#4B5563', image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [38, 39, 40, 41, 42, 43, 44, 45],
+                description: 'Wszechstronny but do codziennych treningów biegowych i długich spacerów. Bezszwowa cholewka otula stopę niczym skarpeta, eliminując ryzyko otarć.',
+                specs: ['Drop: 10 mm', 'Cholewka: Bezszwowa dzianina Knit', 'Przeznaczenie: Trening codzienny / Asfalt']
+            },
+            {
+                id: 'krok-chelsea-heritage',
+                name: 'KROK. Chelsea Heritage',
+                category: 'Eleganckie',
+                price: 549.00,
+                oldPrice: null,
+                badge: null,
+                badgeType: null,
+                image: 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Czarny Mat', hex: '#111827', image: 'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Espresso', hex: '#451A03', image: 'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [39, 40, 41, 42, 43, 44, 45],
+                description: 'Ponadczasowe sztyblety na sezon jesienno-zimowy. Elastyczne wstawki boczne ułatwiają szybkie zakładanie, a ocieplana wkładka chroni przed chłodem.',
+                specs: ['Cholewka: Impregnowana skóra bydlęca', 'Podeszwa: Odporna na ścieranie guma TR', 'Wysokość cholewki: 14 cm']
+            },
+            {
+                id: 'krok-trailgrip-pro',
+                name: 'KROK. TrailGrip Pro',
+                category: 'Outdoor',
+                price: 479.00,
+                oldPrice: 599.00,
+                badge: '-20%',
+                badgeType: 'sale',
+                image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80',
+                colors: [
+                    { name: 'Szary / Terakota', hex: '#EA580C', image: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80' },
+                    { name: 'Czerń / Oliwkowy', hex: '#3F6212', image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80' }
+                ],
+                sizes: [38, 39, 40, 41, 42, 43, 44, 45],
+                description: 'Niskie buty podejściowe i trailowe dla miłośników aktywności w terenie. System szybkiego sznurowania i stabilizator pięty zapewniają pełną kontrolę kroku.',
+                specs: ['Podeszwa: Wielokierunkowy bieżnik GripMax', 'Ochrona: Wzmocniony zapiętek TPU', 'Waga: 320 g (rozm. 42)']
+            }
+        ];
+
+        // 2. STAN APLIKACJI
+        const state = {
+            selectedCategory: 'Wszystkie',
+            priceFilter: 'all',
+            sortBy: 'default',
+            searchQuery: '',
+            // Przechowuje aktualnie wybrany rozmiar na każdej karcie produktu (domyślnie 42)
+            cardSelectedSizes: {},
+            // Koszyk: [{ key, id, name, price, image, size, color, qty }]
+            cart: [],
+            promoApplied: false,
+            promoCode: 'KROK10',
+            promoDiscountRate: 0.10,
+            freeShippingThreshold: 299.00,
+            shippingCost: 14.99
+        };
+
+        // Inicjalizacja domyślnych rozmiarów na kartach (42 lub pierwszy dostępny)
+        PRODUCTS.forEach(p => {
+            state.cardSelectedSizes[p.id] = p.sizes.includes(42) ? 42 : p.sizes[0];
+        });
+
+        // Próba odczytu koszyka z localStorage
+        try {
+            const savedCart = localStorage.getItem('krok_cart_v1');
+            if (savedCart) {
+                const parsed = JSON.parse(savedCart);
+                if (Array.isArray(parsed)) state.cart = parsed;
+            }
+        } catch (e) {
+            console.warn('Brak dostępu do localStorage:', e);
+        }
+
+        // 3. FUNKCJE POMOCNICZE (FORMATOWANIE WALUTY, TOASTY, SCHOWEK)
+        function formatPrice(amount) {
+            return amount.toFixed(2).replace('.', ',') + ' zł';
+        }
+
+        function saveCartToStorage() {
+            try {
+                localStorage.setItem('krok_cart_v1', JSON.stringify(state.cart));
+            } catch (e) {
+                // Ignoruj błędy prywatnego trybu przeglądarki
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast-enter pointer-events-auto flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-brand-dark text-white text-sm font-medium shadow-xl border border-gray-800';
+            
+            const iconHtml = type === 'success' 
+                ? `<span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                   </span>`
+                : `<span class="w-6 h-6 rounded-full bg-orange-500/20 text-brand-accent flex items-center justify-center shrink-0">
+                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                   </span>`;
+
+            toast.innerHTML = `${iconHtml}<span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3000);
+        }
+
+        function copyPromoCode(code) {
+            const tempInput = document.createElement('input');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast(`Skopiowano kod rabatowy: ${code}`);
+            } catch (err) {
+                showToast(`Kod rabatowy: ${code}`, 'info');
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        // 4. RENDEROWANIE SIATKI PRODUKTÓW
+        function getFilteredAndSortedProducts() {
+            let filtered = PRODUCTS.filter(product => {
+                // Filtr kategorii
+                const matchesCat = state.selectedCategory === 'Wszystkie' || product.category === state.selectedCategory;
+                
+                // Filtr wyszukiwania na żywo
+                const q = state.searchQuery.trim().toLowerCase();
+                const matchesSearch = !q || 
+                    product.name.toLowerCase().includes(q) || 
+                    product.category.toLowerCase().includes(q) ||
+                    product.description.toLowerCase().includes(q);
+
+                // Filtr ceny
+                let matchesPrice = true;
+                if (state.priceFilter === 'under-400') matchesPrice = product.price < 400;
+                else if (state.priceFilter === '400-549') matchesPrice = product.price >= 400 && product.price <= 549;
+                else if (state.priceFilter === '550-plus') matchesPrice = product.price >= 550;
+                else if (state.priceFilter === 'promo') matchesPrice = product.oldPrice !== null;
+
+                return matchesCat && matchesSearch && matchesPrice;
+            });
+
+            // Sortowanie
+            if (state.sortBy === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (state.sortBy === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            return filtered;
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countEl = document.getElementById('products-count');
+            const resetBtn = document.getElementById('reset-filters-btn');
+
+            const items = getFilteredAndSortedProducts();
+            countEl.textContent = items.length;
+
+            // Pokaż/ukryj przycisk resetowania filtrów
+            const hasActiveFilters = state.selectedCategory !== 'Wszystkie' || 
+                                     state.priceFilter !== 'all' || 
+                                     state.sortBy !== 'default' || 
+                                     state.searchQuery.trim() !== '';
+            resetBtn.classList.toggle('hidden', !hasActiveFilters);
+
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = items.map(product => {
+                const selectedSize = state.cardSelectedSizes[product.id];
+                const badgeHtml = product.badge 
+                    ? `<span class="absolute top-3.5 left-3.5 z-10 px-3 py-1 rounded-full text-xs font-bold tracking-wide shadow-sm ${
+                        product.badgeType === 'sale' 
+                            ? 'bg-brand-accent text-white' 
+                            : 'bg-brand-dark text-white'
+                      }">${product.badge}</span>` 
+                    : '';
+
+                const oldPriceHtml = product.oldPrice 
+                    ? `<span class="text-xs text-gray-400 line-through font-medium">${formatPrice(product.oldPrice)}</span>` 
+                    : '';
+
+                const sizesButtonsHtml = [38, 39, 40, 41, 42, 43, 44, 45].map(size => {
+                    const isAvailable = product.sizes.includes(size);
+                    const isSelected = selectedSize === size;
+                    if (!isAvailable) {
+                        return `<span class="w-8 h-8 rounded-lg border border-gray-100 bg-gray-50 text-gray-300 text-xs font-medium flex items-center justify-center line-through cursor-not-allowed" title="Brak rozmiaru">${size}</span>`;
+                    }
+                    return `
+                        <button 
+                            type="button" 
+                            onclick="selectCardSize('${product.id}', ${size})"
+                            class="w-8 h-8 rounded-lg text-xs font-semibold transition-all flex items-center justify-center ${
+                                isSelected 
+                                    ? 'bg-brand-dark text-white shadow-sm ring-2 ring-brand-dark/20' 
+                                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200/80'
+                            }"
+                        >
+                            ${size}
+                        </button>
+                    `;
+                }).join('');
+
+                return `
+                    <article class="group bg-white rounded-3xl border border-gray-200/80 shadow-soft hover:shadow-card transition-all duration-300 flex flex-col overflow-hidden">
+                        <!-- Image Container -->
+                        <div class="relative aspect-[4/3] bg-gray-100 overflow-hidden cursor-pointer" onclick="openQuickView('${product.id}')">
+                            ${badgeHtml}
+                            <button 
+                                type="button" 
+                                aria-label="Szybki podgląd ${product.name}"
+                                onclick="event.stopPropagation(); openQuickView('${product.id}')"
+                                class="absolute top-3.5 right-3.5 z-10 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-brand-dark flex items-center justify-center shadow-sm opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-all hover:scale-105"
+                                title="Szybki podgląd"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
+                            <img 
+                                src="${product.image}" 
+                                onerror="this.onerror=null;this.src='https://placehold.co/600x450/F3F4F6/111827?text=${encodeURIComponent(product.name)}';"
+                                alt="${product.name}" 
+                                loading="lazy"
+                                class="w-full h-full object-cover object-center product-img-zoom"
+                            >
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-brand-accent">${product.category}</span>
+                                    <div class="flex items-center gap-1" title="Dostępne warianty kolorystyczne">
+                                        ${product.colors.map(c => `<span class="w-3 h-3 rounded-full border border-gray-300" style="background-color: ${c.hex}"></span>`).join('')}
+                                    </div>
+                                </div>
+                                <h3 class="font-display text-lg font-bold text-brand-dark group-hover:text-brand-accent transition-colors cursor-pointer" onclick="openQuickView('${product.id}')">
+                                    ${product.name}
+                                </h3>
+                                <div class="mt-1.5 flex items-baseline gap-2">
+                                    <span class="font-display text-lg font-extrabold text-brand-dark">${formatPrice(product.price)}</span>
+                                    ${oldPriceHtml}
+                                </div>
+                            </div>
+
+                            <!-- Size Selector EU 38-45 -->
+                            <div class="space-y-2 pt-2 border-t border-gray-100">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-500 font-medium">Rozmiar EU:</span>
+                                    <span class="font-bold text-brand-dark">${selectedSize}</span>
+                                </div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${sizesButtonsHtml}
+                                </div>
+                            </div>
+
+                            <!-- Add to Cart Button -->
+                            <button 
+                                type="button" 
+                                onclick="addToCart('${product.id}', ${selectedSize}, '${product.colors[0].name}', '${product.image}')"
+                                class="w-full py-3 px-4 rounded-xl bg-brand-dark hover:bg-brand-accent text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 active:scale-[0.98]"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                                <span>Dodaj do koszyka</span>
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // Zmiana wybranego rozmiaru bezpośrednio na karcie produktu
+        function selectCardSize(productId, size) {
+            state.cardSelectedSizes[productId] = size;
+            renderProducts();
+        }
+
+        // 5. MODAL SZYBKIEGO PODGLĄDU (QUICK VIEW)
+        let qvState = {
+            productId: null,
+            selectedSize: null,
+            selectedColorIdx: 0
+        };
+
+        function openQuickView(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            qvState = {
+                productId: product.id,
+                selectedSize: state.cardSelectedSizes[product.id] || product.sizes[0],
+                selectedColorIdx: 0
+            };
+
+            renderQuickViewContent();
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function selectQvColor(idx) {
+            qvState.selectedColorIdx = idx;
+            renderQuickViewContent();
+        }
+
+        function selectQvSize(size) {
+            qvState.selectedSize = size;
+            state.cardSelectedSizes[qvState.productId] = size;
+            renderQuickViewContent();
+            renderProducts();
+        }
+
+        function renderQuickViewContent() {
+            const product = PRODUCTS.find(p => p.id === qvState.productId);
+            if (!product) return;
+
+            const activeColor = product.colors[qvState.selectedColorIdx] || product.colors[0];
+            const container = document.getElementById('qv-content');
+
+            const oldPriceHtml = product.oldPrice 
+                ? `<span class="text-sm text-gray-400 line-through font-medium">${formatPrice(product.oldPrice)}</span>` 
+                : '';
+
+            const badgeHtml = product.badge 
+                ? `<span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 ${
+                    product.badgeType === 'sale' ? 'bg-brand-accent text-white' : 'bg-brand-dark text-white'
+                  }">${product.badge}</span>` 
+                : '';
+
+            const colorSwatchesHtml = product.colors.map((col, idx) => {
+                const isSelected = idx === qvState.selectedColorIdx;
+                return `
+                    <button 
+                        type="button" 
+                        onclick="selectQvColor(${idx})"
+                        class="flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${
+                            isSelected 
+                                ? 'border-brand-dark bg-gray-50 text-brand-dark ring-2 ring-brand-dark/10' 
+                                : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }"
+                    >
+                        <span class="w-4 h-4 rounded-full border border-gray-300 shrink-0" style="background-color: ${col.hex}"></span>
+                        <span>${col.name}</span>
+                    </button>
+                `;
+            }).join('');
+
+            const sizesHtml = [38, 39, 40, 41, 42, 43, 44, 45].map(size => {
+                const isAvailable = product.sizes.includes(size);
+                const isSelected = qvState.selectedSize === size;
+                if (!isAvailable) {
+                    return `<span class="h-11 rounded-xl border border-gray-100 bg-gray-50 text-gray-300 text-sm font-medium flex items-center justify-center line-through cursor-not-allowed">${size}</span>`;
+                }
+                return `
+                    <button 
+                        type="button" 
+                        onclick="selectQvSize(${size})"
+                        class="h-11 rounded-xl text-sm font-bold transition-all flex items-center justify-center ${
+                            isSelected 
+                                ? 'bg-brand-dark text-white shadow-md' 
+                                : 'bg-white border border-gray-200 text-brand-dark hover:border-brand-dark'
+                        }"
+                    >
+                        ${size}
+                    </button>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <!-- Left Image -->
+                <div class="bg-gray-100 relative min-h-[280px] sm:min-h-[380px] flex items-center justify-center overflow-hidden">
+                    <img 
+                        src="${activeColor.image}" 
+                        onerror="this.onerror=null;this.src='https://placehold.co/700x700/F3F4F6/111827?text=${encodeURIComponent(product.name)}';"
+                        alt="${product.name} - ${activeColor.name}" 
+                        class="w-full h-full object-cover"
+                    >
+                </div>
+
+                <!-- Right Details -->
+                <div class="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                    <div>
+                        ${badgeHtml}
+                        <p class="text-xs font-bold uppercase tracking-wider text-brand-accent">${product.category}</p>
+                        <h3 id="qv-title" class="font-display text-2xl sm:text-3xl font-extrabold text-brand-dark mt-1">${product.name}</h3>
+                        
+                        <div class="mt-2.5 flex items-baseline gap-3">
+                            <span class="font-display text-2xl font-extrabold text-brand-dark">${formatPrice(product.price)}</span>
+                            ${oldPriceHtml}
+                            <span class="text-xs text-emerald-600 font-semibold ml-auto">● Dostępny w magazynie</span>
+                        </div>
+
+                        <p class="text-sm text-gray-600 mt-4 leading-relaxed">
+                            ${product.description}
+                        </p>
+
+                        <!-- Specs list -->
+                        <ul class="mt-4 space-y-1.5 text-xs text-gray-500 bg-brand-bg p-3.5 rounded-2xl border border-gray-100">
+                            ${product.specs.map(s => `<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent"></span>${s}</li>`).join('')}
+                        </ul>
+
+                        <!-- Color Variant Picker -->
+                        <div class="mt-5">
+                            <span class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
+                                Kolor: <strong class="text-brand-dark normal-case">${activeColor.name}</strong>
+                            </span>
+                            <div class="flex flex-wrap gap-2">
+                                ${colorSwatchesHtml}
+                            </div>
+                        </div>
+
+                        <!-- EU Size Picker -->
+                        <div class="mt-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Wybierz rozmiar EU</span>
+                                <span class="text-xs text-gray-400">Długość wkładki: ${(qvState.selectedSize * 0.66).toFixed(1)} cm</span>
+                            </div>
+                            <div class="grid grid-cols-4 gap-2">
+                                ${sizesHtml}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button 
+                        type="button" 
+                        onclick="addToCart('${product.id}', ${qvState.selectedSize}, '${activeColor.name}', '${activeColor.image}'); closeQuickView();"
+                        class="w-full py-4 px-6 rounded-2xl bg-brand-accent hover:bg-brand-accentHover text-white font-semibold text-base shadow-lg shadow-orange-600/20 transition-all flex items-center justify-center gap-2.5 active:scale-[0.99]"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                        <span>Dodaj do koszyka — ${formatPrice(product.price)}</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        // 6. LOGIKA KOSZYKA (CART DRAWER)
+        function addToCart(productId, size, colorName, imageUrl) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const chosenColor = colorName || product.colors[0].name;
+            const chosenImage = imageUrl || product.image;
+            const itemKey = `${product.id}_${size}_${chosenColor}`;
+
+            const existingItem = state.cart.find(item => item.key === itemKey);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                state.cart.push({
+                    key: itemKey,
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: chosenImage,
+                    size: size,
+                    color: chosenColor,
+                    qty: 1
+                });
+            }
+
+            saveCartToStorage();
+            updateCartUI(true);
+            showToast(`Dodano: ${product.name} (EU ${size})`);
+        }
+
+        function updateCartItemQty(itemKey, delta) {
+            const itemIndex = state.cart.findIndex(item => item.key === itemKey);
+            if (itemIndex === -1) return;
+
+            state.cart[itemIndex].qty += delta;
+            if (state.cart[itemIndex].qty <= 0) {
+                state.cart.splice(itemIndex, 1);
+            }
+
+            saveCartToStorage();
+            updateCartUI(false);
+        }
+
+        function removeCartItem(itemKey) {
+            state.cart = state.cart.filter(item => item.key !== itemKey);
+            saveCartToStorage();
+            updateCartUI(false);
+        }
+
+        function calculateCartTotals() {
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const discount = state.promoApplied ? subtotal * state.promoDiscountRate : 0;
+            const afterDiscount = Math.max(0, subtotal - discount);
+            const isFreeShipping = afterDiscount >= state.freeShippingThreshold || subtotal === 0;
+            const shipping = subtotal === 0 ? 0 : (isFreeShipping ? 0 : state.shippingCost);
+            const total = afterDiscount + shipping;
+
+            return { subtotal, discount, afterDiscount, isFreeShipping, shipping, total };
+        }
+
+        function updateCartUI(animateBadge = false) {
+            const totalItemsCount = state.cart.reduce((sum, item) => sum + item.qty, 0);
+            const badgeEl = document.getElementById('cart-badge');
+            const drawerCountEl = document.getElementById('cart-drawer-count');
+            
+            badgeEl.textContent = totalItemsCount;
+            drawerCountEl.textContent = totalItemsCount;
+
+            if (animateBadge) {
+                badgeEl.classList.remove('badge-pop');
+                void badgeEl.offsetWidth; // trigger reflow
+                badgeEl.classList.add('badge-pop');
+            }
+
+            const { subtotal, discount, afterDiscount, isFreeShipping, shipping, total } = calculateCartTotals();
+
+            // Pasek postępu darmowej dostawy
+            const shippingTextEl = document.getElementById('free-shipping-text');
+            const shippingBarEl = document.getElementById('free-shipping-bar');
+            const progressPct = Math.min(100, (afterDiscount / state.freeShippingThreshold) * 100);
+            shippingBarEl.style.width = `${progressPct}%`;
+
+            if (subtotal === 0) {
+                shippingTextEl.innerHTML = `Dodaj produkty za <strong class="text-brand-accent">${formatPrice(state.freeShippingThreshold)}</strong>, aby zyskać darmową dostawę!`;
+                shippingBarEl.classList.remove('bg-emerald-500');
+                shippingBarEl.classList.add('bg-brand-accent');
+            } else if (isFreeShipping) {
+                shippingTextEl.innerHTML = `<span class="text-emerald-600 font-bold">✓ Gratulacje!</span> Przysługuje Ci <strong>darmowa dostawa</strong>.`;
+                shippingBarEl.classList.remove('bg-brand-accent');
+                shippingBarEl.classList.add('bg-emerald-500');
+            } else {
+                const remaining = state.freeShippingThreshold - afterDiscount;
+                shippingTextEl.innerHTML = `Brakuje tylko <strong class="text-brand-accent">${formatPrice(remaining)}</strong> do darmowej dostawy!`;
+                shippingBarEl.classList.remove('bg-emerald-500');
+                shippingBarEl.classList.add('bg-brand-accent');
+            }
+
+            // Lista produktów w koszyku
+            const itemsContainer = document.getElementById('cart-items-container');
+            const cartFooter = document.getElementById('cart-footer');
+
+            if (state.cart.length === 0) {
+                cartFooter.classList.add('hidden');
+                itemsContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12 px-4">
+                        <div class="w-16 h-16 rounded-2xl bg-gray-100 text-gray-400 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brand-dark">Twój koszyk jest pusty</h3>
+                        <p class="text-sm text-gray-500 mt-1 mb-6 max-w-xs">
+                            Odkryj naszą kolekcję obuwia i wybierz parę idealną dla siebie.
+                        </p>
+                        <button type="button" onclick="closeCartDrawer()" class="px-6 py-3 rounded-xl bg-brand-dark hover:bg-gray-800 text-white text-sm font-semibold transition-colors">
+                            Wróć do zakupów
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            cartFooter.classList.remove('hidden');
+            itemsContainer.innerHTML = state.cart.map(item => `
+                <div class="flex gap-4 p-3.5 rounded-2xl bg-brand-bg border border-gray-100">
+                    <img 
+                        src="${item.image}" 
+                        onerror="this.onerror=null;this.src='https://placehold.co/160x160/F3F4F6/111827?text=KROK.';"
+                        alt="${item.name}" 
+                        class="w-20 h-20 rounded-xl object-cover bg-white shrink-0 border border-gray-200/60"
+                    >
+                    <div class="flex-1 min-w-0 flex flex-col justify-between">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <h4 class="font-display font-bold text-sm text-brand-dark truncate">${item.name}</h4>
+                                <p class="text-xs text-gray-500 mt-0.5">Rozmiar: <strong class="text-gray-700">EU ${item.size}</strong> · ${item.color}</p>
+                            </div>
+                            <button type="button" onclick="removeCartItem('${item.key}')" aria-label="Usuń produkt" class="text-gray-400 hover:text-red-500 p-1 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between mt-3">
+                            <!-- Quantity Controls -->
+                            <div class="inline-flex items-center bg-white border border-gray-200 rounded-xl p-0.5">
+                                <button type="button" onclick="updateCartItemQty('${item.key}', -1)" aria-label="Zmniejsz ilość" class="w-7 h-7 rounded-lg hover:bg-gray-100 text-gray-700 font-bold flex items-center justify-center transition-colors">−</button>
+                                <span class="w-8 text-center text-xs font-bold text-brand-dark">${item.qty}</span>
+                                <button type="button" onclick="updateCartItemQty('${item.key}', 1)" aria-label="Zwiększ ilość" class="w-7 h-7 rounded-lg hover:bg-gray-100 text-gray-700 font-bold flex items-center justify-center transition-colors">+</button>
+                            </div>
+
+                            <span class="font-display font-extrabold text-sm text-brand-dark">
+                                ${formatPrice(item.price * item.qty)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Podsumowanie kwot
+            document.getElementById('cart-subtotal').textContent = formatPrice(subtotal);
+            
+            const discountRow = document.getElementById('cart-discount-row');
+            if (state.promoApplied && discount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cart-discount').textContent = `-${formatPrice(discount)}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            const shippingEl = document.getElementById('cart-shipping');
+            if (isFreeShipping) {
+                shippingEl.textContent = '0,00 zł (Darmowa)';
+                shippingEl.classList.add('text-emerald-600');
+            } else {
+                shippingEl.textContent = formatPrice(shipping);
+                shippingEl.classList.remove('text-emerald-600');
+            }
+
+            document.getElementById('cart-total').textContent = formatPrice(total);
+        }
+
+        function openCartDrawer() {
+            const wrapper = document.getElementById('cart-drawer-wrapper');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+
+            wrapper.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            });
+        }
+
+        function closeCartDrawer() {
+            const wrapper = document.getElementById('cart-drawer-wrapper');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+
+            backdrop.classList.add('opacity-0');
+            panel.classList.add('translate-x-full');
+
+            setTimeout(() => {
+                wrapper.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // 7. FILTROWANIE, WYSZUKIWANIE I NAWIGACJA
+        function setCategoryFilter(category) {
+            state.selectedCategory = category;
+
+            // Aktualizacja pigułek w sekcji katalogu
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                const isMatch = btn.dataset.cat === category;
+                btn.className = isMatch
+                    ? 'cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-brand-dark text-white transition-all'
+                    : 'cat-pill shrink-0 px-4 py-2 rounded-xl text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200/80 transition-all';
+            });
+
+            // Aktualizacja linków w nawigacji
+            document.querySelectorAll('.nav-cat-link').forEach(link => {
+                const isMatch = link.dataset.navCat === category;
+                if (link.closest('#mobile-menu')) {
+                    link.className = isMatch
+                        ? 'nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-semibold text-brand-accent bg-brand-lightAccent'
+                        : 'nav-cat-link w-full text-left block px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50';
+                } else {
+                    link.className = isMatch
+                        ? 'nav-cat-link px-3.5 py-2 rounded-xl text-sm font-semibold text-brand-accent bg-brand-lightAccent transition-colors'
+                        : 'nav-cat-link px-3.5 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-brand-dark hover:bg-gray-100 transition-colors';
+                }
+            });
+
+            renderProducts();
+        }
+
+        function selectCategoryAndScroll(category) {
+            setCategoryFilter(category);
+            document.getElementById('mobile-menu').classList.add('hidden');
+            const catalogEl = document.getElementById('katalog');
+            if (catalogEl) {
+                catalogEl.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function filterByPromo() {
+            state.selectedCategory = 'Wszystkie';
+            state.priceFilter = 'promo';
+            document.getElementById('price-filter').value = 'promo';
+            setCategoryFilter('Wszystkie');
+            document.getElementById('katalog').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetAllFilters() {
+            state.selectedCategory = 'Wszystkie';
+            state.priceFilter = 'all';
+            state.sortBy = 'default';
+            state.searchQuery = '';
+
+            document.getElementById('price-filter').value = 'all';
+            document.getElementById('sort-select').value = 'default';
+            document.getElementById('search-input-desktop').value = '';
+            document.getElementById('search-input-mobile').value = '';
+            document.getElementById('clear-search-desktop').classList.add('hidden');
+            document.getElementById('clear-search-mobile').classList.add('hidden');
+
+            setCategoryFilter('Wszystkie');
+        }
+
+        // 8. INICJALIZACJA ZDARZEŃ PO ZAŁADOWANIU STRONY
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render początkowy
+            renderProducts();
+            updateCartUI(false);
+
+            // Kliknięcia w pigułki kategorii w katalogu
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                btn.addEventListener('click', () => setCategoryFilter(btn.dataset.cat));
+            });
+
+            // Kliknięcia w linki kategorii w nawigacji
+            document.querySelectorAll('.nav-cat-link').forEach(btn => {
+                btn.addEventListener('click', () => selectCategoryAndScroll(btn.dataset.navCat));
+            });
+
+            // Filtr ceny i sortowanie
+            document.getElementById('price-filter').addEventListener('change', (e) => {
+                state.priceFilter = e.target.value;
+                renderProducts();
+            });
+
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                state.sortBy = e.target.value;
+                renderProducts();
+            });
+
+            // Wyszukiwarka na żywo (Desktop + Mobile)
+            const desktopSearch = document.getElementById('search-input-desktop');
+            const mobileSearch = document.getElementById('search-input-mobile');
+            const clearDesktop = document.getElementById('clear-search-desktop');
+            const clearMobile = document.getElementById('clear-search-mobile');
+
+            function handleSearchInput(val) {
+                state.searchQuery = val;
+                desktopSearch.value = val;
+                mobileSearch.value = val;
+                clearDesktop.classList.toggle('hidden', val.length === 0);
+                clearMobile.classList.toggle('hidden', val.length === 0);
+                renderProducts();
+            }
+
+            desktopSearch.addEventListener('input', (e) => handleSearchInput(e.target.value));
+            mobileSearch.addEventListener('input', (e) => handleSearchInput(e.target.value));
+
+            clearDesktop.addEventListener('click', () => handleSearchInput(''));
+            clearMobile.addEventListener('click', () => handleSearchInput(''));
+
+            // Mobile menu & mobile search toggles
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+            document.getElementById('mobile-search-toggle').addEventListener('click', () => {
+                const bar = document.getElementById('mobile-search-bar');
+                bar.classList.toggle('hidden');
+                if (!bar.classList.contains('hidden')) {
+                    mobileSearch.focus();
+                }
+            });
+
+            // Quick View Modal events
+            document.getElementById('qv-close-btn').addEventListener('click', closeQuickView);
+            document.getElementById('qv-backdrop').addEventListener('click', closeQuickView);
+
+            // Cart Drawer events
+            document.getElementById('open-cart-btn').addEventListener('click', openCartDrawer);
+            document.getElementById('close-cart-btn').addEventListener('click', closeCartDrawer);
+            document.getElementById('cart-backdrop').addEventListener('click', closeCartDrawer);
+
+            // Kod rabatowy w koszyku
+            const promoForm = document.getElementById('promo-form');
+            const promoInput = document.getElementById('promo-input');
+            const promoStatus = document.getElementById('promo-status');
+            const promoMessage = document.getElementById('promo-message');
+
+            promoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const enteredCode = promoInput.value.trim().toUpperCase();
+                
+                if (enteredCode === 'KROK10') {
+                    state.promoApplied = true;
+                    promoStatus.classList.remove('hidden');
+                    promoMessage.className = 'font-medium text-emerald-600';
+                    promoMessage.textContent = '✓ Kod KROK10 aktywny (-10% na produkty)';
+                    updateCartUI(false);
+                    showToast('Zastosowano kod rabatowy KROK10 (-10%)');
+                } else {
+                    promoStatus.classList.remove('hidden');
+                    promoMessage.className = 'font-medium text-red-500';
+                    promoMessage.textContent = 'Nieprawidłowy kod. Spróbuj wpisać: KROK10';
+                }
+            });
+
+            document.getElementById('remove-promo-btn').addEventListener('click', () => {
+                state.promoApplied = false;
+                promoInput.value = '';
+                promoStatus.classList.add('hidden');
+                updateCartUI(false);
+                showToast('Usunięto kod rabatowy', 'info');
+            });
+
+            // Symulacja finalizacji zamówienia (Checkout)
+            document.getElementById('checkout-btn').addEventListener('click', () => {
+                if (state.cart.length === 0) return;
+
+                const { total } = calculateCartTotals();
+                const itemsCount = state.cart.reduce((sum, i) => sum + i.qty, 0);
+                const randomOrderNum = `#KRK-${Math.floor(100000 + Math.random() * 900000)}`;
+
+                document.getElementById('order-number').textContent = randomOrderNum;
+                document.getElementById('order-summary-box').innerHTML = `
+                    <div class="flex justify-between">
+                        <span>Liczba par obuwia:</span>
+                        <strong class="text-brand-dark">${itemsCount} szt.</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Metoda dostawy:</span>
+                        <strong class="text-brand-dark">Kurier / Paczkomat 24h</strong>
+                    </div>
+                    <div class="flex justify-between pt-1.5 border-t border-gray-200/80 text-sm">
+                        <span>Kwota opłacona:</span>
+                        <strong class="text-brand-accent font-display">${formatPrice(total)}</strong>
+                    </div>
+                `;
+
+                closeCartDrawer();
+
+                // Wyczyść koszyk po złożeniu zamówienia
+                state.cart = [];
+                state.promoApplied = false;
+                promoInput.value = '';
+                promoStatus.classList.add('hidden');
+                saveCartToStorage();
+                updateCartUI(false);
+
+                document.getElementById('checkout-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('close-checkout-modal-btn').addEventListener('click', () => {
+                document.getElementById('checkout-modal').classList.add('hidden');
+            });
+
+            // Newsletter Form
+            document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = document.getElementById('newsletter-email');
+                const feedback = document.getElementById('newsletter-feedback');
+                
+                if (emailInput.value.trim()) {
+                    feedback.textContent = `Dziękujemy! Potwierdzenie zapisu dla ${emailInput.value.trim()} zostało wysłane. Twój kod rabatowy: KROK10`;
+                    feedback.classList.remove('hidden');
+                    emailInput.value = '';
+                    showToast('Zapisano do newslettera KROK.');
+                }
+            });
+
+            // Obsługa klawisza Escape dla modali
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeQuickView();
+                    closeCartDrawer();
+                    document.getElementById('checkout-modal').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
